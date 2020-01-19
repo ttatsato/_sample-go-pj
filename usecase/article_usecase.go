@@ -35,3 +35,14 @@ func UpdateArticle(article *domain.Article) error {
 	repo := persistence.ArticleRepositoryWithRDB(conn)
 	return repo.Update(article)
 }
+
+// RemoveArticle soft delete
+func RemoveArticle(articleId int) error {
+	conn, err := config.ConnectDB()
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	repo := persistence.ArticleRepositoryWithRDB(conn)
+	return repo.Remove(articleId)
+}
