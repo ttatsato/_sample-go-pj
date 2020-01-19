@@ -91,7 +91,7 @@ func Routes(e *echo.Echo) {
 		if err := usecase.RemoveArticle(articleId); err != nil {
 			return c.String(http.StatusNotFound, err.Error())
 		}
-		return c.String(http.StatusOK, "OK")
+		return c.String(http.StatusNoContent, "OK")
 	})
 
 	// Migration Route
