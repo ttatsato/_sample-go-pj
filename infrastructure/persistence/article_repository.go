@@ -72,6 +72,10 @@ func (r *ArticleRepositoryImpl) Remove(id int) error {
 		return err
 	}
 
+	// gorm Delete()
+	// モデルにDeletedAt フィールドがある場合、自動的にソフトデリート機能。
+	// Unscopedを使うことでレコードを完全に消去することができます。
+	// tx.Unscoped().Delete(&Article)
 	if err := tx.Delete(&Article).Error; err != nil {
 		tx.Rollback()
 		return err

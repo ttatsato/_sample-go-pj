@@ -10,6 +10,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 // Run start server
@@ -77,6 +78,18 @@ func Routes(e *echo.Echo) {
 		}
 		if err := usecase.UpdateArticle(article); err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		return c.String(http.StatusOK, "OK")
+	})
+
+	e.DELETE("/api/v1/article/:articleId", func(c echo.Context) error {
+		articleId, err := strconv.Atoi(c.Param("articleId"))
+		if err != nil {
+			return c.String(http.StatusBadRequest, err.Error())
+		}
+
+		if err := usecase.RemoveArticle(articleId); err != nil {
+			return c.String(http.StatusNotFound, err.Error())
 		}
 		return c.String(http.StatusOK, "OK")
 	})

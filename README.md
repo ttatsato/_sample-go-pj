@@ -19,7 +19,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 "revenueStream":"ユーザーの月間使用料",
 "elevatorPitch":"30秒でこのアイディアを伝えると?",
 "remarks":"備考",
-"status":"解決方法"}' localhost:8000/api/v1/article
+"status":"ステータス"}' localhost:8000/api/v1/article
 ```
 
 # read demo all article
@@ -43,5 +43,5 @@ curl -X PATCH -H "Content-Type: application/json" -d '{
 "revenueStream":"ユーザーの月間使用料",
 "elevatorPitch":"30秒でこのアイディアを伝えると?",
 "remarks":"備考",
-"status":"解決方法"}' localhost:8000/api/v1/article
+"status":"ステータス"}' localhost:8000/api/v1/article
 ```
