@@ -18,10 +18,6 @@ func Run(e *echo.Echo, port string) {
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }
 
-type Context struct {
-	echo.Context
-}
-
 type Validator struct {
 	validator *validator.Validate
 }
