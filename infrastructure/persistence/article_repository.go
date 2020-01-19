@@ -19,7 +19,7 @@ func ArticleRepositoryWithRDB(conn *gorm.DB) repository.ArticleRepository {
 // Get Article by id return domain.Article
 func (r *ArticleRepositoryImpl) Get(id int) (*domain.Article, error) {
 	Article := &domain.Article{}
-	if err := r.Conn.Preload("Topic").First(&Article, id).Error; err != nil {
+	if err := r.Conn.Preload("Comment").First(&Article, id).Error; err != nil {
 		return nil, err
 	}
 	return Article, nil
@@ -28,7 +28,10 @@ func (r *ArticleRepositoryImpl) Get(id int) (*domain.Article, error) {
 // GetAll Article return all domain.Article
 func (r *ArticleRepositoryImpl) GetAll() ([]domain.Article, error) {
 	Article := []domain.Article{}
-	if err := r.Conn.Preload("Topic").Find(&Article).Error; err != nil {
+	//if err := r.Conn.Preload("Comment").Find(&Article).Error; err != nil {
+	//	return nil, err
+	//}
+	if err := r.Conn.Find(&Article).Error; err != nil {
 		return nil, err
 	}
 

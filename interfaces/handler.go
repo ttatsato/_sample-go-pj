@@ -51,7 +51,12 @@ func Routes(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	e.GET("/api/v1/article", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		articles, err := usecase.FetchAllArticles()
+		if err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+
+		return c.String(http.StatusOK, convertMapToJsonString(articles))
 	})
 	e.POST("/api/v1/article", func(c echo.Context) error {
 		article := new(domain.Article)
