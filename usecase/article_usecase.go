@@ -6,7 +6,7 @@ import (
 	"app/infrastructure/persistence"
 )
 
-func CreateNewArticle (article *domain.Article) error {
+func CreateNewArticle(article *domain.Article) error {
 	conn, err := config.ConnectDB()
 	if err != nil {
 		return err
@@ -16,7 +16,7 @@ func CreateNewArticle (article *domain.Article) error {
 	return repo.Save(article)
 }
 
-func FetchAllArticles () ([]domain.Article, error){
+func FetchAllArticles() ([]domain.Article, error) {
 	conn, err := config.ConnectDB()
 	if err != nil {
 		return nil, err
@@ -24,4 +24,14 @@ func FetchAllArticles () ([]domain.Article, error){
 	defer conn.Close()
 	repo := persistence.ArticleRepositoryWithRDB(conn)
 	return repo.GetAll()
+}
+
+func UpdateArticle(article *domain.Article) error {
+	conn, err := config.ConnectDB()
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	repo := persistence.ArticleRepositoryWithRDB(conn)
+	return repo.Update(article)
 }

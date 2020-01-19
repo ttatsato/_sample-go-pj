@@ -2,11 +2,11 @@ package interfaces
 
 import (
 	"app/config"
+	"app/domain"
 	"app/usecase"
 	"fmt"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
-	"app/domain"
 	"github.com/labstack/echo/middleware"
 	"log"
 	"net/http"
@@ -26,7 +26,7 @@ func (v *Validator) Validate(i interface{}) error {
 	return v.validator.Struct(i)
 }
 
-func BindValidate (c echo.Context, i interface{}) error {
+func BindValidate(c echo.Context, i interface{}) error {
 	if err := c.Bind(i); err != nil {
 		log.Println(err)
 		return c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
@@ -58,6 +58,7 @@ func Routes(e *echo.Echo) {
 
 		return c.String(http.StatusOK, convertMapToJsonString(articles))
 	})
+
 	e.POST("/api/v1/article", func(c echo.Context) error {
 		article := new(domain.Article)
 		if err := BindValidate(c, article); err != nil {
@@ -68,10 +69,21 @@ func Routes(e *echo.Echo) {
 		}
 		return c.String(http.StatusCreated, "OK")
 	})
+
+	e.PATCH("/api/v1/article", func(c echo.Context) error {
+		article := new(domain.Article)
+		if err := BindValidate(c, article); err != nil {
+			return err
+		}
+		if err := usecase.UpdateArticle(article); err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		return c.String(http.StatusOK, "OK")
+	})
+
 	// Migration Route
 	e.GET("/api/v1/migrate", migrate)
 }
-
 
 // =============================
 //    MIGRATE
