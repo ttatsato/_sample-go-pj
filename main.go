@@ -9,6 +9,7 @@ import (
 	"os"
 )
 
+// EnvLoad 環境変数の取得
 func EnvLoad() {
 	if os.Getenv("ENV_MODE") == "dev" {
 		err := godotenv.Load()
