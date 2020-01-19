@@ -45,3 +45,8 @@ curl -X PATCH -H "Content-Type: application/json" -d '{
 "remarks":"備考",
 "status":"ステータス"}' localhost:8000/api/v1/article
 ```
+
+# delete article
+```shell script
+curl -X DELETE -H localhost:8000/api/v1/article/{articleId}
+```
