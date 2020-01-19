@@ -1,6 +1,6 @@
 package repository
 
-import "ibp/domain"
+import "app/domain"
 
 // ArticleRepository represent repository of  the Article
 // Expect implementation by the infrastructure layer

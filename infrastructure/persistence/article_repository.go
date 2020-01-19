@@ -1,9 +1,9 @@
 package persistence
 
 import (
+	"app/domain"
+	"app/domain/repository"
 	"github.com/jinzhu/gorm"
-	"ibp/domain"
-	"ibp/domain/repository"
 )
 
 // ArticleRepositoryImpl Implements repository.ArticleRepository
@@ -11,8 +11,8 @@ type ArticleRepositoryImpl struct {
 	Conn *gorm.DB
 }
 
-// NewArticleRepositoryWithRDB returns initialized ArticleRepositoryImpl
-func NewArticleRepositoryWithRDB(conn *gorm.DB) repository.ArticleRepository {
+// ArticleRepositoryWithRDB returns initialized ArticleRepositoryImpl
+func ArticleRepositoryWithRDB(conn *gorm.DB) repository.ArticleRepository {
 	return &ArticleRepositoryImpl{Conn: conn}
 }
 
