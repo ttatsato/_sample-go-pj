@@ -1,8 +1,6 @@
 package interfaces
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 )
@@ -14,11 +12,8 @@ func printDebugf(format string, args ...interface{}) {
 	}
 }
 
-func convertMapToJsonString(src interface{}) string {
-	bytes, err := json.Marshal(src)
-	if err != nil {
-		fmt.Println("JSON marshal error: ", err)
-		return ""
-	}
-	return string(bytes)
+type ApiErrorResponse struct {
+	Status int `json:status`
+	Message string `json:message`
 }
+

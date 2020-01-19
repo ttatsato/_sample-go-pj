@@ -1,11 +1,11 @@
 package main
 
 import (
+	"app/interfaces"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"ibp/interfaces"
 	"log"
-	"github.com/joho/godotenv"
 	"os"
 )
 
@@ -20,7 +20,7 @@ func EnvLoad() {
 	}
 }
 
-func main () {
+func main() {
 	EnvLoad()
 	e := echo.New()
 	e.Use(middleware.CORS())

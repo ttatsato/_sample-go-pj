@@ -26,9 +26,7 @@ func ConnectDB() (*gorm.DB, error) {
 		Port: os.Getenv("MYSQL_PORT"),
 		Dbname: os.Getenv("MYSQL_DATABASE"),
 	}
-	log.Println(config)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", config.User, config.Password, config.Host, config.Port, config.Dbname)
-	log.Println(dsn)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		log.Println(err)

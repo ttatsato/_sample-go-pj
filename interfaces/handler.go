@@ -1,10 +1,13 @@
 package interfaces
 
 import (
-	"ibp/config"
+	"app/config"
+	"app/usecase"
 	"fmt"
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
-	"ibp/domain"
+	"app/domain"
+	"github.com/labstack/echo/middleware"
 	"log"
 	"net/http"
 )
@@ -15,19 +18,50 @@ func Run(e *echo.Echo, port string) {
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }
 
+type Validator struct {
+	validator *validator.Validate
+}
+
+func (v *Validator) Validate(i interface{}) error {
+	return v.validator.Struct(i)
+}
+
+func BindValidate (c echo.Context, i interface{}) error {
+	if err := c.Bind(i); err != nil {
+		log.Println(err)
+		return c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+	}
+	if err := c.Validate(i); err != nil {
+		return c.String(http.StatusBadRequest, "Validate is failed: "+err.Error())
+	}
+	return nil
+}
+
+func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
+	log.Printf("Request Body: %v\n", string(reqBody))
+	log.Printf("Response Body: %v\n", string(resBody))
+}
+
 // Routes returns the initialized router
 func Routes(e *echo.Echo) {
+	e.Use(middleware.BodyDump(bodyDumpHandler))
+	e.Validator = &Validator{validator: validator.New()}
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	e.POST("/api/v1/article", func(context echo.Context) error {
-		param := new(domain.Article)
-		printDebugf("test")
-		if err := context.Bind(param); err != nil {
-			log.Println("bad request")
-			return context.String(http.StatusBadRequest, "bad request")
+	e.GET("/api/v1/article", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	e.POST("/api/v1/article", func(c echo.Context) error {
+		article := new(domain.Article)
+		if err := BindValidate(c, article); err != nil {
+			return err
 		}
-		return context.String(http.StatusCreated, "")
+		if err := usecase.CreateNewArticle(article); err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		return c.String(http.StatusCreated, "OK")
 	})
 	// Migration Route
 	e.GET("/api/v1/migrate", migrate)

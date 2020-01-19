@@ -1,7 +1,7 @@
 package config
 
 import (
-	"ibp/domain"
+	"app/domain"
 	"log"
 	"github.com/jinzhu/gorm"
 )
@@ -16,8 +16,8 @@ func DBMigrate() (*gorm.DB, error) {
 
 	if conn.HasTable(domain.Article{}) {
 		conn.DropTable(domain.Article{})
-		conn.AutoMigrate(domain.Article{})
 	}
+	conn.AutoMigrate(domain.Article{})
 	log.Println("Migration has been processed")
 	return conn, nil
 }
