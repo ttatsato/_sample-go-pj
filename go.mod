@@ -16,5 +16,7 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/valyala/fasttemplate v1.1.0 // indirect
 	golang.org/x/crypto v0.0.0-20200117160349-530e935923ad // indirect
+	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f // indirect
+	golang.org/x/tools v0.0.0-20200117220505-0cba7a3a9ee9 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 )
