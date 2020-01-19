@@ -94,6 +94,17 @@ func Routes(e *echo.Echo) {
 		return c.String(http.StatusNoContent, "OK")
 	})
 
+	e.POST("/api/v1/article/comment", func(c echo.Context) error {
+		articleComment := new(domain.ArticleComment)
+		if err := BindValidate(c, articleComment); err != nil {
+			return err
+		}
+		if err := usecase.CreateNewArticleComment(articleComment); err != nil {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+		return c.String(http.StatusCreated, "OK")
+	})
+
 	// Migration Route
 	e.GET("/api/v1/migrate", migrate)
 }

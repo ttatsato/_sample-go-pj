@@ -50,3 +50,18 @@ curl -X PATCH -H "Content-Type: application/json" -d '{
 ```shell script
 curl -X DELETE -H localhost:8000/api/v1/article/{articleId}
 ```
+
+# create article comment
+```shell script
+curl -X POST -H "Content-Type: application/json" -d '{
+"articleId":1,
+"text": "とてもいいアイディアですね",
+"status":"ステータス"}' localhost:8000/api/v1/article/comment
+```
+
+```shell script
+curl -X POST -H "Content-Type: application/json" -d '{
+"articleId":1,
+"text": "私はあまり好きではありません",
+"status":"ステータス"}' localhost:8000/api/v1/article/comment
+```

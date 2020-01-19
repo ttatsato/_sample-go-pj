@@ -28,12 +28,12 @@ func (r *ArticleRepositoryImpl) Get(id int) (*domain.Article, error) {
 // GetAll Article return all domain.Article
 func (r *ArticleRepositoryImpl) GetAll() ([]domain.Article, error) {
 	Article := []domain.Article{}
-	//if err := r.Conn.Preload("Comment").Find(&Article).Error; err != nil {
-	//	return nil, err
-	//}
-	if err := r.Conn.Find(&Article).Error; err != nil {
+	if err := r.Conn.Debug().Preload("Comments").Find(&Article).Error; err != nil {
 		return nil, err
 	}
+	//if err := r.Conn.Find(&Article).Error; err != nil {
+	//	return nil, err
+	//}
 
 	return Article, nil
 }
