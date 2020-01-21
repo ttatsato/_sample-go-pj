@@ -20,11 +20,11 @@ type ConfigDB struct {
 // ConnectDB returns initialized gorm.DB
 func ConnectDB() (*gorm.DB, error) {
 	config := ConfigDB{
-		User: os.Getenv("MYSQL_USER"),
+		User:     os.Getenv("MYSQL_USER"),
 		Password: os.Getenv("MYSQL_PASSWORD"),
-		Host: os.Getenv("MYSQL_HOSTNAME"),
-		Port: os.Getenv("MYSQL_PORT"),
-		Dbname: os.Getenv("MYSQL_DATABASE"),
+		Host:     os.Getenv("MYSQL_CONTAINER_NAME"),
+		Port:     os.Getenv("MYSQL_PORT"),
+		Dbname:   os.Getenv("MYSQL_DATABASE"),
 	}
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", config.User, config.Password, config.Host, config.Port, config.Dbname)
 	db, err := gorm.Open("mysql", dsn)

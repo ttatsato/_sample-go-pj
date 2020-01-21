@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  article_searcher:
+    build:
+      context: ./
+      dockerfile: ./docker/app/Dockerfile
+    container_name: "article_searcher"
+    depends_on:
+      - mysql
+    environment:
+      - ENV_MODE=dev
+      - MYSQL_CONTAINER_NAME=article_searcher_mysql
+    ports:
+      - $PORT:8000
+    volumes:
+      - .:/article_searcher
+    links:
+      - mysql
+    command: go run main.go
+    tty: true
+  mysql:
+    container_name: "article_searcher_mysql"
+    image: mysql:8.0
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - $MYSQL_PORT:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
