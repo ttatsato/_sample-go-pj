@@ -1,3 +1,8 @@
+# docker container build
+```shell script
+docker-compose up --build
+```
+
 # migrate
 ```shell script
 curl -X GET -H "Content-Type: application/json" localhost:8000/api/v1/migrate
